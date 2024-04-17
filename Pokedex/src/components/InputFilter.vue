@@ -1,13 +1,21 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, ref, onMounted } from "vue";
 
 const props = defineProps({
   searchPokemon: String,
   updateSearchValue: Function,
   updateSearchType: Function,
 });
+const pokemonsType = ref([])
+
+onMounted(() => {
+  fetch("https://pokeapi.co/api/v2/type")
+    .then((response) => response.json())
+    .then((response) => response.results.map((type) => pokemonsType.value.push(type.name)));
+});
 
 const emits = defineEmits(['updateSearchType','updateSearchValue'])
+
 
 const searchType = ref('Name')
 const changeSearchType = ( newType ) =>{

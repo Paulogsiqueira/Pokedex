@@ -29,6 +29,8 @@ const pokemonsFiltered = computed(() => {
     }else if(searchType.value == "Id"){
       return pokemonsList.value.filter((pokemon) =>
       pokemon.url.split('/')[6] == searchValue.value)
+    }else if(searchType.value == "Type"){
+
     }
   
   }

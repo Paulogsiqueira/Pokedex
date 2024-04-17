@@ -1,31 +1,46 @@
 <script setup>
-import { onMounted,defineProps,ref } from "vue";
+import { onMounted, defineProps, ref, watchEffect } from "vue";
 
 const props = defineProps({
   pokemon: Object,
 });
 
-// onMounted(() => {
-//   fetch("https://pokeapi.co/api/v2/pokemon/1")
-//     .then((response) => response.json())
-//     .then((response) => (console.log(response)));
-// });
+const pokemonId = props.pokemon.url.split("/")[6];
+
+const pokemonTypes = ref([]);
+onMounted(() => {
+  fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonId)
+    .then((response) => response.json())
+    .then((response) => {
+      pokemonTypes.value = response.types;
+    });
+});
 
 const urlSvg = ref(
-  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/" + props.pokemon.url.split('/')[6] + ".svg"
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/" +
+    pokemonId +
+    ".svg"
 );
 
-
+watchEffect(() => {
+  pokemonTypes.value.forEach((type) => {
+    console.log(type.type.name);
+  });
+});
 </script>
 
 <template>
   <div class="card">
     <h2>{{ pokemon.name }}</h2>
     <div class="card-image">
-        <img :src="urlSvg"/>
+      <img :src="urlSvg" />
     </div>
     <div class="card-attributes">
-      <p>Water</p>
+      <ul>
+        <li v-for="(type, index) in pokemonTypes.value" :key="index">
+        {{ type.type.name }}
+      </li>
+      </ul>
     </div>
   </div>
 </template>
