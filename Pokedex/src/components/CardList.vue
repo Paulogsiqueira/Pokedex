@@ -8,45 +8,47 @@ import { useStore } from "vuex";
 let minValue = ref(0);
 let maxValue = ref(0);
 const listEl = ref(null);
-const fetchingData = ref(null);
 const store = useStore();
 const pokeList = computed(() => store.state.pokeList)
+setTimeout(() => {
+  console.log(pokeList.value)
+}, 2000);
 
-console.log(pokeList.value)
+setTimeout(() => {
+  console.log(pokeList.value)
+}, 5000);
 
 const data = reactive({
   pokemonsList: [],
 });
 
-const getUsers = async () => {
+const getPokemons = async (minValue,maxValue) => {
   const users = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon?limit=${maxValue.value}&offset=${minValue.value}`
+    `https://pokeapi.co/api/v2/pokemon?limit=${maxValue}&offset=${minValue}`
   );
   return users.data.results;
 };
 
-const getUsersOnScroll = async () => {
-  minValue.value = maxValue.value + 1;
+const getPokemonsOnScroll = async () => {
+  minValue.value = maxValue.value +1 ;
   maxValue.value += 10;
-  const newUsers = await getUsers();
-  fetchingData.value = null;
-  data.pokemonsList.push(...newUsers);
+  const newPokemons = await getPokemons(minValue.value,maxValue.value );
+  data.pokemonsList.push(...newPokemons);
+  const newPokemonsName = newPokemons.map((pokemon) => pokemon.name)
+  store.commit('ADD_POKEMONS', newPokemonsName )
 };
 
 useInfiniteScroll(listEl, async () => {
-  await getUsersOnScroll();
+  await getPokemonsOnScroll();
 },{
   distance: 20
 });
 
 onMounted(async () => {
-  const newUsers = await getUsers();
-  data.pokemonsList.push(...newUsers);
+  const newPokemons = await getPokemons(minValue.value,maxValue.value);
+  data.pokemonsList.push(...newPokemons);
 });
 
-const props = defineProps({
-  pokemonsList: Array,
-});
 
 </script>
 

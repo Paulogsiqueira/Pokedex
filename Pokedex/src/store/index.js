@@ -5,7 +5,12 @@ const store = createStore({
         pokeList:['pikachu','charmander']
     },
     getters:{},
-    mutations:{},
+    mutations:{
+        ADD_POKEMONS(state,payload){
+            console.log(payload)
+            state.pokeList.value = [...state.pokeList, payload]
+        }
+    },
     actions:{}  
 })
 
