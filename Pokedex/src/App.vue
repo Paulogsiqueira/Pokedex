@@ -2,22 +2,22 @@
 import CardList from "./components/CardList.vue";
 import { onMounted, ref, computed, reactive } from "vue";
 import InputFilter from "./components/InputFilter.vue";
-import { useInfiniteScroll } from "@vueuse/core";
 import axios from "axios";
+import { useInfiniteScroll } from "@vueuse/core";
 
-const data = reactive({
-  usersList: [],
-});
-
-let searchValue = ref("");
-let searchType = ref("Name");
 let minValue = ref(0);
 let maxValue = ref(30);
 const listEl = ref(null);
 const usersToShow = 15;
 const fetchingData = ref(null);
+let searchValue = ref("");
+let searchType = ref("Name");
 
-const getUsers = async (limit, skip) => {
+const data = reactive({
+  usersList: [],
+});
+
+const getUsers = async () => {
   const users = await axios.get(
     `https://pokeapi.co/api/v2/pokemon?limit=${maxValue.value}&offset=${minValue.value}`
   );
@@ -26,18 +26,23 @@ const getUsers = async (limit, skip) => {
 
 const getUsersOnScroll = async () => {
   await new Promise((res) => setTimeout(res, 2000));
-  const newUsers = await getUsers(maxValue.value, data.usersList.length);
+  minValue.value = maxValue.value + 1;
+  maxValue.value += 20;
+  const newUsers = await getUsers();
   fetchingData.value = null;
   data.usersList.push(...newUsers);
 };
+const onScrollToEnd = () => {
+  if (fetchingData.value === null) {
+    fetchingData.value = getUsersOnScroll();
+  }
+};
 
-useInfiniteScroll(
-  listEl,
-  async () => {
-    await getUsersOnScroll();
-  },
-  { distance: 20 }
-);
+useInfiniteScroll(listEl, async () => {
+  await getUsersOnScroll();
+},{
+  distance: 10
+});
 
 const updateSearchValue = (newValue) => {
   searchValue.value = newValue;
@@ -46,7 +51,6 @@ const updateSearchValue = (newValue) => {
 const updateSearchType = (newValue) => {
   searchType.value = newValue;
 };
-
 
 onMounted(async () => {
   const newUsers = await getUsers(usersToShow, 0);
@@ -73,7 +77,6 @@ const pokemonsFiltered = computed(() => {
   <div class="fullContent">
     <h1>Pokedex</h1>
     <ul ref="listEl">
-      <li>Teste</li>
       <li v-for="user in data.usersList" :key="user.name">{{ user.name }}</li>
     </ul>
     <InputFilter
