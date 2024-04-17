@@ -3,11 +3,16 @@ import Card from "./Card.vue";
 import { onMounted, ref, computed, reactive } from "vue";
 import axios from "axios";
 import { useInfiniteScroll } from "@vueuse/core";
+import { useStore } from "vuex"; 
 
 let minValue = ref(0);
 let maxValue = ref(0);
 const listEl = ref(null);
 const fetchingData = ref(null);
+const store = useStore();
+const pokeList = computed(() => store.state.pokeList)
+
+console.log(pokeList.value)
 
 const data = reactive({
   pokemonsList: [],
