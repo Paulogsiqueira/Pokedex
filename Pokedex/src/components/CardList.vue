@@ -10,7 +10,7 @@ const listEl = ref(null);
 const fetchingData = ref(null);
 
 const data = reactive({
-  usersList: [],
+  pokemonsList: [],
 });
 
 const getUsers = async () => {
@@ -22,21 +22,21 @@ const getUsers = async () => {
 
 const getUsersOnScroll = async () => {
   minValue.value = maxValue.value + 1;
-  maxValue.value += 20;
+  maxValue.value += 10;
   const newUsers = await getUsers();
   fetchingData.value = null;
-  data.usersList.push(...newUsers);
+  data.pokemonsList.push(...newUsers);
 };
 
 useInfiniteScroll(listEl, async () => {
   await getUsersOnScroll();
 },{
-  distance: 10
+  distance: 20
 });
 
 onMounted(async () => {
   const newUsers = await getUsers();
-  data.usersList.push(...newUsers);
+  data.pokemonsList.push(...newUsers);
 });
 
 const props = defineProps({
@@ -46,14 +46,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="cardList-fullContent">
-    <ul ref="listEl" class="listContent">
-      <li v-for="user in data.usersList" :key="user.name">{{ user.name }}</li>
-    </ul>
+  <div >
     <div class="cardList">
       <ul ref="listEl" class="listContent">
         <Card
-          v-for="pokemon in props.usersList"
+          v-for="pokemon in data.pokemonsList"
           :key="pokemon.name"
           :pokemon="pokemon"
         />
@@ -69,17 +66,12 @@ const props = defineProps({
   margin-left: 5%;
 }
 
-.cardList-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .listContent{
   max-height: 100vh;
   overflow-y: auto;
-}
-
-.cardList-fullContent{
+  display: flex;
+  flex-wrap: wrap;
   border:1px solid red
 }
+
 </style>

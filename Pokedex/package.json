@@ -12,7 +12,8 @@
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
     "vue": "^3.4.21",
-    "vue-demi": "^0.14.7"
+    "vue-demi": "^0.14.7",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

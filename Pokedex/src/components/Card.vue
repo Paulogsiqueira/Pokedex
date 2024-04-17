@@ -4,7 +4,6 @@ import { onMounted, ref, watchEffect, reactive } from "vue";
 const props = defineProps({
   pokemon: Object,
 });
-
 const pokemonId = props.pokemon.url.split("/")[6];
 const urlSvg = ref(
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/" +
