@@ -11,7 +11,7 @@ const listEl = ref(null);
 const store = useStore();
 const pokeList = computed(() => store.getters.getPokemonsListing);
 const pokemonsResearched = computed(() => store.getters.getPokemonsResearched);
-console.log(pokemonsResearched.value.length)
+console.log(pokemonsResearched.value[0])
 //v-for="pokemon in pokemonsResearched.value.length > 0 ? pokemonsResearched : pokeList"
 
 const getPokemons = async (minValue) => {
@@ -43,6 +43,7 @@ onMounted(() => {
 <template>
   <div>
     <div class="cardList">
+      <p v-if="pokemonsResearched.value == undefined"> teste</p>
       <ul ref="listEl" class="listContent">
         <Card
           v-for="pokemon in pokeList"
