@@ -1,63 +1,52 @@
 <script setup>
-import Card from "./Card.vue";
-import { onMounted, ref, computed, reactive } from "vue";
-import axios from "axios";
+import { onMounted, ref, computed, watchEffect } from "vue";
 import { useInfiniteScroll } from "@vueuse/core";
-import { useStore } from "vuex"; 
+import { useStore } from "vuex/dist/vuex.cjs.js";
+import Card from "./Card.vue";
+import axios from "axios";
 
 let minValue = ref(0);
-let maxValue = ref(0);
+// Foto ate id 649
 const listEl = ref(null);
 const store = useStore();
-const pokeList = computed(() => store.state.pokeList)
-setTimeout(() => {
-  console.log(pokeList.value)
-}, 2000);
+const pokeList = computed(() => store.getters.getPokemonsListing);
+const pokemonsResearched = computed(() => store.getters.getPokemonsResearched);
+console.log(pokemonsResearched.value.length)
+//v-for="pokemon in pokemonsResearched.value.length > 0 ? pokemonsResearched : pokeList"
 
-setTimeout(() => {
-  console.log(pokeList.value)
-}, 5000);
-
-const data = reactive({
-  pokemonsList: [],
-});
-
-const getPokemons = async (minValue,maxValue) => {
-  const users = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon?limit=${maxValue}&offset=${minValue}`
+const getPokemons = async (minValue) => {
+  const pokemons = await axios.get(
+    `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${minValue}`
   );
-  return users.data.results;
+  store.commit("ADD_POKEMONS", pokemons.data.results);
+  return pokemons.data.results;
 };
 
-const getPokemonsOnScroll = async () => {
-  minValue.value = maxValue.value +1 ;
-  maxValue.value += 10;
-  const newPokemons = await getPokemons(minValue.value,maxValue.value );
-  data.pokemonsList.push(...newPokemons);
-  const newPokemonsName = newPokemons.map((pokemon) => pokemon.name)
-  store.commit('ADD_POKEMONS', newPokemonsName )
+const getPokemonsOnScroll = () => {
+  minValue.value += 20;
+  getPokemons(minValue.value);
 };
 
-useInfiniteScroll(listEl, async () => {
-  await getPokemonsOnScroll();
-},{
-  distance: 20
+useInfiniteScroll(
+  listEl,
+  async () => {
+    getPokemonsOnScroll();
+  },
+  { distance: 20 }
+);
+
+onMounted(() => {
+  getPokemons(minValue.value);
 });
-
-onMounted(async () => {
-  const newPokemons = await getPokemons(minValue.value,maxValue.value);
-  data.pokemonsList.push(...newPokemons);
-});
-
-
 </script>
 
 <template>
-  <div >
+  <div>
     <div class="cardList">
       <ul ref="listEl" class="listContent">
         <Card
-          v-for="pokemon in data.pokemonsList"
+          v-for="pokemon in pokeList"
+          
           :key="pokemon.name"
           :pokemon="pokemon"
         />
@@ -73,12 +62,11 @@ onMounted(async () => {
   margin-left: 5%;
 }
 
-.listContent{
+.listContent {
   max-height: 100vh;
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
-  border:1px solid red
+  border: 1px solid red;
 }
-
 </style>

@@ -20,6 +20,7 @@ import InputFilter from "./components/InputFilter.vue";
   align-items: center;
   width: 100%;
   max-height: 100vh;
+  margin-top:100px
 }
 
 </style>

@@ -1,47 +1,21 @@
 <script setup>
-import { ref, onMounted, computed} from "vue";
-
-const pokemonsType = ref([])
-
-onMounted(() => {
-  fetch("https://pokeapi.co/api/v2/type")
-    .then((response) => response.json())
-    .then((response) => response.results.map((type) => pokemonsType.value.push(type.name)));
-});
-
-
-const searchType = ref('Name')
-const searchValue = ref('')
-
-const changeSearchType = ( newType ) =>{
-    searchType.value = newType
-    emits("updateSearchType",newType)
-}
-
+import { ref, computed } from "vue";
+import { useStore } from "vuex/dist/vuex.cjs.js";
+const store = useStore();
+const searchOption = computed(() => store.getters.getSearchOption);
+const searchValue = ref("");
 
 const updateSearchValue = (newValue) => {
   searchValue.value = newValue;
-  console.log(searchValue.value)
 };
 
-const updateSearchType = (newValue) => {
-  searchType.value = newValue;
+const searchSubmit = () => {
+  store.commit("ADD_FILTER_OPTIONS", searchValue.value);
 };
 
-const pokemonsFiltered = computed(() => {
-  if (data.usersList && searchValue.value) {
-    if (searchType.value == "Name") {
-      return data.usersList.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchValue.value.toLowerCase())
-      );
-    } else if (searchType.value == "Id") {
-      return data.usersList.filter(
-        (pokemon) => pokemon.url.split("/")[6] == searchValue.value
-      );
-    }
-  }
-  return data.usersList;
-});
+const updateSearchOption = (newValue) => {
+  store.commit("EDIT_OPTION", newValue);
+};
 </script>
 
 <template>
@@ -59,17 +33,37 @@ const pokemonsFiltered = computed(() => {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        {{ searchType }}
+        {{ searchOption }}
       </button>
       <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" @click="changeSearchType('Name')" href="#">Name</a></li>
+        <li>
+          <a class="dropdown-item" @click="updateSearchOption('Name')" href="#"
+            >Name</a
+          >
+        </li>
         <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" @click="changeSearchType('Id')" href="#">Id</a></li>
+        <li>
+          <a class="dropdown-item" @click="updateSearchOption('Id')" href="#"
+            >Id</a
+          >
+        </li>
         <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" @click="changeSearchType('Type')" href="#">Type</a></li>
+        <li>
+          <a class="dropdown-item" @click="updateSearchOption('Type')" href="#"
+            >Type</a
+          >
+        </li>
         <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" @click="changeSearchType('Species')" href="#">Species</a></li>
+        <li>
+          <a
+            class="dropdown-item"
+            @click="updateSearchOption('Species')"
+            href="#"
+            >Species</a
+          >
+        </li>
       </ul>
+      <button @click="searchSubmit()">Search</button>
     </div>
   </div>
 </template>
