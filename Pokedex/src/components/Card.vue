@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import Modal from "./Modal.vue";
+const showModal = ref(false);
 
 const props = defineProps({
   pokemon: Object,
@@ -11,16 +12,26 @@ const urlSvg = ref(
     pokemonId +
     ".svg"
 );
+
+const openCard = () => {
+  showModal.value = true;
+}
+
+const closeCard = () => {
+  showModal.value = false;
+}
+
+
 </script>
 
 <template>
   <div class="card">
-    <button @click="$emit(openCard)">Open</button>
+    <button @click="openCard">Open</button>
     <h2>{{ pokemon.name }}</h2>
     <div class="card-image">
       <img :src="urlSvg" />
     </div>
-    <Modal :pokemonId="pokemonId" :urlSvg="urlSvg"/>
+    <Modal v-show="showModal" :pokemonId="pokemonId" :urlSvg="urlSvg" :closeCard="closeCard" :showModal="showModal"/>
   </div>
 </template>
 
