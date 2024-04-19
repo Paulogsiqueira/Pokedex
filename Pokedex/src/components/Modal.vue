@@ -13,6 +13,10 @@ const props = defineProps<{
   closeCard: () => {};
 }>();
 
+const getImageUrl = (name) => {
+  return `../public/icons/${name}.svg`
+}
+
 const pokemonSprites = ref<string[]>([]);
 const pokemonMoves = ref<string[]>([]);
 const pokemonGameIndices = ref<string[]>([]);
@@ -76,8 +80,8 @@ watch(showModalRef, async (newValue) => {
       <div class="card-types">
         <ul class="card-type__list">
           <li v-for="(type, index) in pokemonTypes" :key="index">
-            <div class="card-type__item" style="background-color: white">
-              <img :src="dataTypes[type].img" />
+            <div class="card-type__item" style="background-color: gray">
+              <img :src="getImageUrl(type)" />
               <p>{{ type }}</p>
             </div>
           </li>
@@ -200,6 +204,9 @@ watch(showModalRef, async (newValue) => {
   border-radius: 10px;
   margin-right: 5px;
   max-height: 30px;
+}
+.card-type__item img{
+  width: 20px;
 }
 
 .card-evolution__title,
