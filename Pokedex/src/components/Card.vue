@@ -29,7 +29,7 @@ const closeCard = () => {
     <button @click="openCard">Open</button>
     <h2>{{ pokemon.name }}</h2>
     <div class="card-image">
-      <img :src="urlSvg" />
+      <img :src="urlSvg" alt="Pokemon image" />
     </div>
     <Modal v-show="showModal" :pokemonId="pokemonId" :urlSvg="urlSvg" :closeCard="closeCard" :showModal="showModal"/>
   </div>
@@ -37,6 +37,7 @@ const closeCard = () => {
 
 <style scoped>
 .card {
+  position:relative;
   display: flex;
   flex-direction: column;
   align-items: center;

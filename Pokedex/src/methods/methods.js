@@ -29,14 +29,27 @@ export const getPokemonCharacteristics = async (value) => {
     const pokemon = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${value}`
     );
-  
     return pokemon.data
 }
 
-export const getPokemonEvolution = async (value) => {
+export const getPokemonEvolutions = async (value) => {
     const pokemon = await axios.get(
-        `https://pokeapi.co/api/v2/evolution-chain/${value}`
+        `https://pokeapi.co/api/v2/pokemon-species/${value}`
     );
-    console.log(pokemon.data)
-
+    const evolutionId = pokemon.data.evolution_chain.url.split("/")[6];
+    const evolutionChain = await axios.get(
+        `https://pokeapi.co/api/v2/evolution-chain/${evolutionId}`
+    );
+    const evolutionNames =[];
+    if (evolutionChain === undefined) {
+    }else{
+        const firstEvolution = evolutionChain.data.chain.evolves_to[0]
+        evolutionNames.push(evolutionChain.data.chain.species.name);
+        evolutionNames.push(firstEvolution.species.name)
+        if(evolutionChain.data.chain.evolves_to[0].evolves_to[0]){
+            evolutionNames.push(evolutionChain.data.chain.evolves_to[0].evolves_to[0].species.name)
+        }
+    }
+    return evolutionNames
 }
+
