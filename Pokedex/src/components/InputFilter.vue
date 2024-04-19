@@ -3,19 +3,19 @@ import { ref, computed } from "vue";
 import { useStore } from "vuex/dist/vuex.cjs.js";
 const store = useStore();
 const searchOption = computed(() => store.getters.getSearchOption);
-const searchValue = ref("");
 
-const updateSearchValue = (newValue) => {
-  searchValue.value = newValue;
+const updateSearchValue = (value) => {
+  store.commit("EDIT_SEARCH_VALUE", value);
+};
+
+const updateSearchOption = (option) => {
+  store.commit("EDIT_SEARCH_OPTION", option);
 };
 
 const searchSubmit = () => {
-  store.commit("ADD_FILTER_OPTIONS", searchValue.value);
+  store.commit("ADD_FILTER_OPTIONS");
 };
 
-const updateSearchOption = (newValue) => {
-  store.commit("EDIT_OPTION", newValue);
-};
 </script>
 
 <template>

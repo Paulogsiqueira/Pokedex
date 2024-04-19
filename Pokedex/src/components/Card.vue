@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, ref, watchEffect, reactive } from "vue";
+import { ref } from "vue";
+import Modal from "./Modal.vue";
 
 const props = defineProps({
   pokemon: Object,
@@ -10,23 +11,6 @@ const urlSvg = ref(
     pokemonId +
     ".svg"
 );
-
-const data = reactive({
-  pokemonTypes: [],
-  typesArray: [],
-});
-
-// onMounted(() => {
-//   fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonId)
-//     .then((response) => response.json())
-//     .then((response) => {
-//       data.pokemonTypes = response.types;
-//     });
-// });
-
-// watchEffect(() => {
-//   data.typesArray = data.pokemonTypes.map((item) => item.type.name);
-// });
 </script>
 
 <template>
@@ -35,16 +19,7 @@ const data = reactive({
     <div class="card-image">
       <img :src="urlSvg" />
     </div>
-    <div class="card-attributes">
-      <!--
-        <ul v-if="data.typesArray.length > 0">
-          <li v-for="(type, index) in data.typesArray" :key="index">
-            {{ type }}
-          </li>
-        </ul>
-      -->
-      
-    </div>
+    <Modal />
   </div>
 </template>
 

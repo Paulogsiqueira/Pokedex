@@ -5,14 +5,14 @@ import { useStore } from "vuex/dist/vuex.cjs.js";
 import Card from "./Card.vue";
 import axios from "axios";
 
+
 let minValue = ref(0);
 // Foto ate id 649
 const listEl = ref(null);
 const store = useStore();
 const pokeList = computed(() => store.getters.getPokemonsListing);
 const pokemonsResearched = computed(() => store.getters.getPokemonsResearched);
-console.log(pokemonsResearched.value[0])
-//v-for="pokemon in pokemonsResearched.value.length > 0 ? pokemonsResearched : pokeList"
+const searchValue = computed(() => store.getters.getSearchValue)
 
 const getPokemons = async (minValue) => {
   const pokemons = await axios.get(
@@ -36,18 +36,18 @@ useInfiniteScroll(
 );
 
 onMounted(() => {
-  getPokemons(minValue.value);
+ getPokemons(minValue.value);
 });
 </script>
 
 <template>
   <div>
     <div class="cardList">
-      <p v-if="pokemonsResearched.value == undefined"> teste</p>
       <ul ref="listEl" class="listContent">
         <Card
-          v-for="pokemon in pokeList"
-          
+          v-for="pokemon in pokemonsResearched.length > 0
+            ? pokemonsResearched
+            : pokeList"
           :key="pokemon.name"
           :pokemon="pokemon"
         />
