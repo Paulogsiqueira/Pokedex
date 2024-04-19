@@ -7,12 +7,10 @@ import axios from "axios";
 
 
 let minValue = ref(0);
-// Foto ate id 649
 const listEl = ref(null);
 const store = useStore();
 const pokeList = computed(() => store.getters.getPokemonsListing);
 const pokemonsResearched = computed(() => store.getters.getPokemonsResearched);
-const searchValue = computed(() => store.getters.getSearchValue)
 
 const getPokemons = async (minValue) => {
   const pokemons = await axios.get(

@@ -1,66 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { ModalsContainer, VueFinalModal } from 'vue-final-modal'
+import { defineProps } from "vue";
+import { ref } from "vue";
+import { defineEmits } from 'vue'
+const showModal = ref(false);
 
+const emit = defineEmits(['openCard'])
 
-const getInitialValues = () => ({
-    teleportTo: 'body',
-    modelValue: false,
-    displayDirective: 'if',
-    hideOverlay: false,
-    overlayTransition: 'vfm-fade',
-    contentTransition: 'vfm-fade',
-    clickToClose: true,
-    escToClose: true,
-    background: 'non-interactive',
-    lockScroll: true,
-    reserveScrollBarGap: true,
-    swipeToClose: 'none',
-  })
+const props = defineProps<{
+  pokemonId: string;
+  urlSvg: string;
+}>();
 
-  const options = ref(getInitialValues())
+const openCard = () => {
+  showModal.value = true;
+  console.log("ABRIR CARD")
+  
+}
 
-  function reset() {
-    options.value = getInitialValues()
-  }
+const closeCard = () => {
+  showModal.value = false;
+}
+
 </script>
 
 <template>
-  <div>
-    <button class="ml-auto" @click="options.modelValue = true">
-        Open modal
-    </button>
-    <VueFinalModal
-      v-model="options.modelValue"
-      :teleport-to="options.teleportTo"
-      :hide-overlay="options.hideOverlay"
-      :overlay-transition="options.overlayTransition"
-      :content-transition="options.contentTransition"
-      :click-to-close="options.clickToClose"
-      :esc-to-close="options.escToClose"
-      :lock-scroll="options.lockScroll"
-      :reserve-scroll-bar-gap="options.reserveScrollBarGap"
-      content-class="mx-4 mt-5 p-4 bg-white border"
-      id="testeModal"
-    >
-      <h1 class="text-xl distM">
-        Hello World!
-      </h1>
-      <p>Magna deserunt nulla aliquip velit aute. Et occaecat elit nulla excepteur labore cupidatat. Duis culpa mollit commodo dolor qui Lorem qui laborum elit elit Lorem occaecat. Commodo eiusmod esse voluptate officia amet quis occaecat aliqua. Proident do irure amet ut occaecat dolor laboris consectetur.</p>
-      <button @click="options.modelValue = false">
-        Close
-      </button>
-    </VueFinalModal>
-    <ModalsContainer />
+  <div class="classe" v-show="showModal">
+    <h1>Modal</h1>
+    <button @click="closeCard">X</button>
+    <div>
+      <h2>{{ pokemonId }}</h2>
+      <img :src="urlSvg" alt="Imagem do Pokémon" />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.mx-4{
-  margin-top:50%
-}
-
-#testeModal{
-  margin-top:50px !important
+.classe {
+  position: absolute;
+  background: rgb(255, 255, 255);
+  padding: 1rem;
+  border: 1px solid grey;
+  border-radius: 5px;
 }
 </style>

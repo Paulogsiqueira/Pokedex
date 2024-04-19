@@ -15,11 +15,12 @@ const urlSvg = ref(
 
 <template>
   <div class="card">
+    <button @click="$emit(openCard)">Open</button>
     <h2>{{ pokemon.name }}</h2>
     <div class="card-image">
       <img :src="urlSvg" />
     </div>
-    <Modal />
+    <Modal :pokemonId="pokemonId" :urlSvg="urlSvg"/>
   </div>
 </template>
 
