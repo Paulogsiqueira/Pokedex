@@ -15,12 +15,11 @@ const updateSearchOption = (option) => {
 const searchSubmit = () => {
   store.commit("ADD_FILTER_OPTIONS");
 };
-
 </script>
 
 <template>
   <div class="inputFilter">
-    <div class="input-group mb-3">
+    <div class="input-group mb-3 inputFilter-content">
       <input
         @input="updateSearchValue($event.target.value)"
         type="text"
@@ -73,22 +72,48 @@ const searchSubmit = () => {
   width: 60%;
 }
 
+.inputFilter-content {
+  display: flex;
+  justify-content: center;
+}
+
 .inputFilter-input {
-  width: 80%;
+  width: 60%;
   border: 1px solid black;
   border-radius: 10px 10px 10px 10px;
-  background-color: rgb(215, 215, 215);
+  background-color: #d7d7d7;
 }
 
-.dropdown-filter{
-  background-color: rgb(215, 215, 215);
+.dropdown-filter {
+  background-color: #d7d7d7;
+  border:1px solid black
 }
 
-.dropdown-button{
-  background-color: rgb(215, 215, 215);
-  border:1px solid black;
+.dropdown-button {
+  background-color: #d7d7d7;
+  border: 1px solid black;
   border-radius: 5px;
   font-weight: bold;
 }
 
+@media (max-width: 800px) {
+  .inputFilter {
+    width: 80%;
+  }
+}
+
+@media (max-width: 550px) {
+  .inputFilter {
+    width: 95%;
+  }
+  .dropdown-filter {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 450px) {
+  .dropdown-filter {
+    font-size: 12px;
+  }
+}
 </style>

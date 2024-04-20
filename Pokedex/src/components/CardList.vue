@@ -59,9 +59,9 @@ onMounted(() => {
   display: flex;
   width: 90%;
   margin-left: 5%;
-  border: 2px solid rgb(96, 96, 96);
+  border: 2px solid #606060;
   border-radius: 5px;
-  background-color: rgb(144, 144, 144);
+  background-color: #909090;
 }
 
 .listContent {
@@ -70,5 +70,11 @@ onMounted(() => {
   display: flex;
   flex-wrap: wrap;
   padding: 20px 20px;
+}
+
+@media (max-width: 1000px) {
+  .listContent{
+    justify-content: center;
+  }
 }
 </style>

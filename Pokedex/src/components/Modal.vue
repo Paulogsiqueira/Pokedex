@@ -143,8 +143,8 @@ watch(showModalRef, async (newValue) => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgb(227, 227, 227);
-  border: 2px solid grey;
+  background: #d7d7d7;
+  border: 2px solid #808080;
   border-radius: 5px;
 }
 
@@ -162,8 +162,8 @@ watch(showModalRef, async (newValue) => {
   font-size: 10px;
   height: 20px;
   border-radius: 4px;
-  border: 1px solid rgb(179, 179, 179);
-  background-color: rgb(218, 86, 86);
+  border: 1px solid #909090;
+  background-color: #da5656;
   color: white;
   font-weight: bold;
 }
@@ -172,7 +172,7 @@ watch(showModalRef, async (newValue) => {
   display: flex;
   justify-content: center;
   margin-right: 0.5rem;
-  color: #545454;
+  color: #555555;
   font-family: "Wellfleet", monospace;
 }
 
@@ -215,7 +215,7 @@ watch(showModalRef, async (newValue) => {
 .card-type__item {
   display: flex;
   justify-content: center;
-  border: 1px solid gray;
+  border: 1px solid #808080;
   padding: 1px 10px 1px 10px;
   border-radius: 10px;
   margin-right: 5px;
@@ -270,9 +270,9 @@ watch(showModalRef, async (newValue) => {
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid rgb(176, 176, 176);
+  border: 1px solid #909090;
   border-radius: 5px;
-  background-color: rgb(207, 207, 207);
+  background-color: #90909099;
   width: 100%;
 }
 
@@ -282,7 +282,7 @@ watch(showModalRef, async (newValue) => {
 
 .card-list__list li {
   font-size: 14px;
-  color: rgb(78, 78, 78);
+  color: #555555;
   font-weight: 500;
 }
 

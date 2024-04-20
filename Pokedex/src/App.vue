@@ -9,12 +9,14 @@ const store = useStore();
 const chanceLanguage = (language) => {
   store.commit("EDIT_LANGUAGE", language);
 };
+
+
 </script>
 
 <template>
   <div class="fullContent">
     <div class="navbar">
-      <ul >
+      <ul>
         <li v-for="language in languages" :key="language">
           <button @click="chanceLanguage(language)">{{ language }}</button>
         </li>
@@ -27,6 +29,7 @@ const chanceLanguage = (language) => {
 </template>
 
 <style scoped>
+
 .fullContent {
   display: flex;
   flex-direction: column;
@@ -51,10 +54,9 @@ const chanceLanguage = (language) => {
   padding: 0px;
 }
 
-.navbar ul{
+.navbar ul {
   display: flex;
   list-style: none;
   margin: 0px;
 }
-
 </style>
