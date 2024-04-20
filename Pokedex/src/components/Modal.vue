@@ -62,7 +62,7 @@ watch(showModalRef, async (newValue) => {
 
 <template>
   <div>
-    <div id="fade"></div>
+    <div id="fade" @click="closeCard"></div>
     <div class="pokemonCard">
       <div class="card-button">
         <button @click="closeCard">X</button>
@@ -172,7 +172,8 @@ watch(showModalRef, async (newValue) => {
   display: flex;
   justify-content: center;
   margin-right: 0.5rem;
-  color: grey;
+  color: #545454;
+  font-family: "Wellfleet", monospace;
 }
 
 .card-img {

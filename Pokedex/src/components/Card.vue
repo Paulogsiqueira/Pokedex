@@ -28,7 +28,8 @@ function capitalizeFirstLetter(string) {
 
 <template>
   <div class="card">
-    <h2>#{{ pokemonId }} - {{ capitalizeFirstLetter(pokemon.name) }}</h2>
+    <p class="card-id">#{{ pokemonId }}</p>
+    <h2>{{ capitalizeFirstLetter(pokemon.name) }}</h2>
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
@@ -55,9 +56,17 @@ function capitalizeFirstLetter(string) {
   background: linear-gradient(#5c5c5c, #2f2f2f);
 }
 
+.card-id{
+  margin:0px;
+  position:absolute;
+  left:2%;
+  color:white;
+  font-family: "Wellfleet", monospace;
+}
 
 .card h2{
-  color:white
+  color:white;
+  font-family: "Wellfleet", monospace;
 }
 
 .card button{
