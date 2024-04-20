@@ -20,15 +20,19 @@ const openCard = () => {
 const closeCard = () => {
   showModal.value = false;
 };
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 </script>
 
 <template>
   <div class="card">
-    <button @click="openCard">Open</button>
-    <h2>#{{ pokemonId }} - {{ pokemon.name }}</h2>
+    <h2>#{{ pokemonId }} - {{ capitalizeFirstLetter(pokemon.name) }}</h2>
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
+    <button @click="openCard">More Info</button>
     <Modal
       v-show="showModal"
       :pokemonId="pokemonId"
@@ -52,6 +56,15 @@ const closeCard = () => {
 }
 .card h2{
   color:white
+}
+
+.card button{
+  border-radius:10px;
+  background-color: #FFCE4B;
+  border:1px solid white;
+  margin: 15px 0;
+  font-weight: bold;
+  padding: 0 15px;
 }
 
 .card-image img {

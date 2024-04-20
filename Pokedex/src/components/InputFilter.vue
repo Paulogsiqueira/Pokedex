@@ -28,14 +28,14 @@ const searchSubmit = () => {
         aria-label="Text input with dropdown button"
       />
       <button
-        class="btn btn-outline-secondary dropdown-toggle"
+        class="btn btn-outline-secondary dropdown-toggle dropdown-filter"
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
         {{ searchOption }}
       </button>
-      <ul class="dropdown-menu dropdown-menu-end">
+      <ul class="dropdown-menu dropdown-menu-end dropdown-filter">
         <li>
           <a class="dropdown-item" @click="updateSearchOption('Name')" href="#"
             >Name</a
@@ -63,7 +63,7 @@ const searchSubmit = () => {
           >
         </li>
       </ul>
-      <button @click="searchSubmit()">Search</button>
+      <button class="dropdown-button" @click="searchSubmit()">Search</button>
     </div>
   </div>
 </template>
@@ -77,5 +77,18 @@ const searchSubmit = () => {
   width: 80%;
   border: 1px solid black;
   border-radius: 10px 10px 10px 10px;
+  background-color: rgb(215, 215, 215);
 }
+
+.dropdown-filter{
+  background-color: rgb(215, 215, 215);
+}
+
+.dropdown-button{
+  background-color: rgb(215, 215, 215);
+  border:1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 </style>
