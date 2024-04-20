@@ -54,6 +54,8 @@ function capitalizeFirstLetter(string) {
   width: 30%;
   background: linear-gradient(#5c5c5c, #2f2f2f);
 }
+
+
 .card h2{
   color:white
 }
@@ -61,10 +63,15 @@ function capitalizeFirstLetter(string) {
 .card button{
   border-radius:10px;
   background-color: #FFCE4B;
-  border:1px solid white;
+  border: none;
   margin: 15px 0;
   font-weight: bold;
   padding: 0 15px;
+}
+
+.card button:hover{
+background-color: #FF8C38 ;
+transform: scale(1.1)
 }
 
 .card-image img {

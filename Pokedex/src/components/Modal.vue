@@ -61,67 +61,73 @@ watch(showModalRef, async (newValue) => {
 </script>
 
 <template>
-  <div class="pokemonCard">
-    <div class="card-button">
-      <button @click="closeCard">X</button>
-    </div>
-    <div class="pokemonCard-content">
-      <h1 class="card-title">{{ pokemonName }}</h1>
-      <div class="card-img">
-        <img :src="urlSvg" alt="Pokemon image" />
+  <div>
+    <div id="fade"></div>
+    <div class="pokemonCard">
+      <div class="card-button">
+        <button @click="closeCard">X</button>
       </div>
-      <div class="card-sprites">
-        <ul class="card-sprites__list">
-          <li v-for="(type, index) in pokemonSprites" :key="index">
-            <img :src="type" alt="Pokemon in different postions and in shiny appearance"/>
-          </li>
-        </ul>
-      </div>
-      <div class="card-types">
-        <ul class="card-type__list">
-          <li v-for="(type, index) in pokemonTypes" :key="index">
-            <div
-              class="card-type__item"
-              :style="'background-color:' + dataTypes[type].color"
-            >
-              <img :src="getImageUrl(type)" />
-              <p>{{ type }}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="card-evolution__content">
-        <p class="card-evolution__title">Evolutions</p>
-        <div class="card-evolution">
-          <ul class="card-evolution__list">
-            <li v-for="(evolution, index) in pokemonEvolutions" :key="index">
-              <p>{{ index + 1 }}ª - {{ capitalizeFirstLetter(evolution) }}</p>
+      <div class="pokemonCard-content">
+        <h1 class="card-title">{{ pokemonName }}</h1>
+        <div class="card-img">
+          <img :src="urlSvg" alt="Pokemon image" />
+        </div>
+        <div class="card-sprites">
+          <ul class="card-sprites__list">
+            <li v-for="(type, index) in pokemonSprites" :key="index">
+              <img
+                :src="type"
+                alt="Pokemon in different postions and in shiny appearance"
+              />
             </li>
           </ul>
         </div>
-      </div>
-      <div class="card-lists">
-        <div class="card-list__content">
-          <p>Attack Moves</p>
-          <div class="card-list">
-            <ul class="card-list__list">
-              <li v-for="(move, index) in pokemonMoves" :key="index">
-                {{ capitalizeFirstLetter(move) }}
+        <div class="card-types">
+          <ul class="card-type__list">
+            <li v-for="(type, index) in pokemonTypes" :key="index">
+              <div
+                class="card-type__item"
+                :style="'background-color:' + dataTypes[type].color"
+              >
+                <img :src="getImageUrl(type)" />
+                <p>{{ type }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="card-evolution__content">
+          <p class="card-evolution__title">Evolutions</p>
+          <div class="card-evolution">
+            <ul class="card-evolution__list">
+              <li v-for="(evolution, index) in pokemonEvolutions" :key="index">
+                <p>{{ index + 1 }}ª - {{ capitalizeFirstLetter(evolution) }}</p>
               </li>
             </ul>
           </div>
         </div>
-        <div class="card-list__content second-list">
-          <p>Game Indices</p>
-          <div class="card-list">
-            <ul class="card-list__list">
-              <li
-                v-for="(gameIndices, index) in pokemonGameIndices"
-                :key="index"
-              >
-                {{ capitalizeFirstLetter(gameIndices) }}
-              </li>
-            </ul>
+        <div class="card-lists">
+          <div class="card-list__content">
+            <p>Attack Moves</p>
+            <div class="card-list">
+              <ul class="card-list__list">
+                <li v-for="(move, index) in pokemonMoves" :key="index">
+                  {{ capitalizeFirstLetter(move) }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-list__content second-list">
+            <p>Game Indices</p>
+            <div class="card-list">
+              <ul class="card-list__list">
+                <li
+                  v-for="(gameIndices, index) in pokemonGameIndices"
+                  :key="index"
+                >
+                  {{ capitalizeFirstLetter(gameIndices) }}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -277,5 +283,15 @@ watch(showModalRef, async (newValue) => {
   font-size: 14px;
   color: rgb(78, 78, 78);
   font-weight: 500;
+}
+
+#fade{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 5;
 }
 </style>
