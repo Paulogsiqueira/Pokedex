@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { defineProps, ref, watch } from "vue";
 import {
   getPokemonCharacteristics,
@@ -6,22 +6,22 @@ import {
 } from "../methods/methods";
 import { dataTypes } from "../data/data";
 
-const props = defineProps<{
-  pokemonId: string;
-  urlSvg: string;
-  showModal: boolean;
-  closeCard: () => {};
-}>();
+const props = defineProps({
+  pokemonId: String,
+  urlSvg: String,
+  showModal: Boolean,
+  closeCard: Function,
+});
 
 const getImageUrl = (name) => {
-  return `../public/icons/${name}.svg`
-}
+  return `../public/icons/${name}.svg`;
+};
 
-const pokemonSprites = ref<string[]>([]);
-const pokemonMoves = ref<string[]>([]);
-const pokemonGameIndices = ref<string[]>([]);
-const pokemonEvolutions = ref<string[]>([]);
-const pokemonTypes = ref<string[]>([]);
+const pokemonSprites = ref([]);
+const pokemonMoves = ref([]);
+const pokemonGameIndices = ref([]);
+const pokemonEvolutions = ref([]);
+const pokemonTypes = ref([]);
 const pokemonName = ref("");
 
 const showModalRef = () => props.showModal;
@@ -39,24 +39,23 @@ watch(showModalRef, async (newValue) => {
     pokemonName.value = capitalizeFirstLetter(pokemon.name);
 
     // - Get all moves
-    pokemon.moves.map((move) => pokemonMoves.value.push(move.move.name));
+    pokemonMoves.value = pokemon.moves.map((move) => move.move.name);
 
     // - Get all game indices
-    pokemon.game_indices.map((indice) =>
-      pokemonGameIndices.value.push(indice.version.name)
+    pokemonGameIndices.value = pokemon.game_indices.map(
+      (indice) => indice.version.name
     );
+
     // - Get types
-    pokemon.types.map((type) => pokemonTypes.value.push(type.type.name));
+    pokemonTypes.value = pokemon.types.map((type) => type.type.name);
 
     // - Get all sprites
     const sprites = pokemon.sprites;
-    Object.values(sprites).map((value) => {
-      if (typeof value === "string" && value.includes("http")) {
-        pokemonSprites.value.push(value);
-      }
-    });
+    if (sprites) {
+      pokemonSprites.value = Object.values(sprites).filter((value) => (value !=null && typeof value == "string"))
+    }
+
   }
-  console.log(pokemonSprites.value);
 });
 </script>
 
@@ -80,7 +79,10 @@ watch(showModalRef, async (newValue) => {
       <div class="card-types">
         <ul class="card-type__list">
           <li v-for="(type, index) in pokemonTypes" :key="index">
-            <div class="card-type__item" style="background-color: gray">
+            <div
+              class="card-type__item"
+              :style="'background-color:' + dataTypes[type].color"
+            >
               <img :src="getImageUrl(type)" />
               <p>{{ type }}</p>
             </div>
@@ -108,11 +110,14 @@ watch(showModalRef, async (newValue) => {
             </ul>
           </div>
         </div>
-        <div class="card-list__content">
+        <div class="card-list__content second-list">
           <p>Game Indices</p>
           <div class="card-list">
             <ul class="card-list__list">
-              <li v-for="(gameIndices, index) in pokemonGameIndices" :key="index">
+              <li
+                v-for="(gameIndices, index) in pokemonGameIndices"
+                :key="index"
+              >
                 {{ gameIndices }}
               </li>
             </ul>
@@ -135,6 +140,7 @@ watch(showModalRef, async (newValue) => {
 
 .pokemonCard-content {
   padding: 0 0.5rem 0.5rem 0.5rem;
+  min-width: 400px;
 }
 
 .card-button {
@@ -195,33 +201,57 @@ watch(showModalRef, async (newValue) => {
   padding: 0px;
   margin-top: 10px;
 }
-
 .card-type__item {
   display: flex;
   justify-content: center;
-  border: 1px solid black;
+  border: 1px solid gray;
   padding: 1px 10px 1px 10px;
   border-radius: 10px;
   margin-right: 5px;
   max-height: 30px;
 }
-.card-type__item img{
+.card-type__item p {
+  color: white;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.card-type__item img {
   width: 20px;
 }
 
-.card-evolution__title,
-.card-list__content p {
+.card-evolution__title{
+  margin-left:5%;
   margin-top: 10px;
   margin-bottom: 0px;
   font-weight: bold;
 }
-
 .card-evolution__list {
   list-style: none;
 }
 
 .card-evolution__list p {
   margin: 0px;
+}
+
+.card-list__content{
+  width: 40%;
+  min-width: 145px;
+}
+.card-list__content p {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-weight: bold;
+}
+
+.second-list{
+  margin-left:10%;
+}
+
+.card-lists{
+  display: flex;
+  justify-content: start;
+  margin-left:5%
 }
 
 .card-list {
@@ -232,10 +262,14 @@ watch(showModalRef, async (newValue) => {
   border: 1px solid rgb(176, 176, 176);
   border-radius: 5px;
   background-color: rgb(207, 207, 207);
-  width: 50%;
+  width: 100%;
 }
 
 .card-list__list {
   margin-top: 10px;
+}
+
+.card-list__list li{
+ font-size:14px
 }
 </style>

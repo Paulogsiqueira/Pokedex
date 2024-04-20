@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex/dist/vuex.cjs.js";
 const store = useStore();
 const searchOption = computed(() => store.getters.getSearchOption);

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed, watchEffect } from "vue";
+import { onMounted, ref, computed} from "vue";
 import { useInfiniteScroll } from "@vueuse/core";
 import { useStore } from "vuex/dist/vuex.cjs.js";
 import Card from "./Card.vue";
