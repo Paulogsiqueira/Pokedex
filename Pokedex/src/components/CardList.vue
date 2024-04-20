@@ -59,6 +59,9 @@ onMounted(() => {
   display: flex;
   width: 90%;
   margin-left: 5%;
+  border: 2px solid rgb(96, 96, 96);
+  border-radius: 5px;
+  background-color: rgb(144, 144, 144);
 }
 
 .listContent {
@@ -66,6 +69,6 @@ onMounted(() => {
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid red;
+  padding: 20px 20px;
 }
 </style>

@@ -15,36 +15,45 @@ const urlSvg = ref(
 
 const openCard = () => {
   showModal.value = true;
-}
+};
 
 const closeCard = () => {
   showModal.value = false;
-}
-
-
+};
 </script>
 
 <template>
   <div class="card">
     <button @click="openCard">Open</button>
-    <h2>{{ pokemon.name }}</h2>
+    <h2>#{{ pokemonId }} - {{ pokemon.name }}</h2>
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
-    <Modal v-show="showModal" :pokemonId="pokemonId" :urlSvg="urlSvg" :closeCard="closeCard" :showModal="showModal"/>
+    <Modal
+      v-show="showModal"
+      :pokemonId="pokemonId"
+      :urlSvg="urlSvg"
+      :closeCard="closeCard"
+      :showModal="showModal"
+    />
   </div>
 </template>
 
 <style scoped>
 .card {
-  position:relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 10px;
-  border: 1px solid blue;
+  border: 1px solid white;
   width: 30%;
+  background: linear-gradient(#5c5c5c, #2f2f2f);
 }
+.card h2{
+  color:white
+}
+
 .card-image img {
   height: 100px;
 }

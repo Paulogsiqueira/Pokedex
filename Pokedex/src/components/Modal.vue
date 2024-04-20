@@ -52,9 +52,10 @@ watch(showModalRef, async (newValue) => {
     // - Get all sprites
     const sprites = pokemon.sprites;
     if (sprites) {
-      pokemonSprites.value = Object.values(sprites).filter((value) => (value !=null && typeof value == "string"))
+      pokemonSprites.value = Object.values(sprites).filter(
+        (value) => value != null && typeof value == "string"
+      );
     }
-
   }
 });
 </script>
@@ -72,7 +73,7 @@ watch(showModalRef, async (newValue) => {
       <div class="card-sprites">
         <ul class="card-sprites__list">
           <li v-for="(type, index) in pokemonSprites" :key="index">
-            <img :src="type" />
+            <img :src="type" alt="Pokemon in different postions and in shiny appearance"/>
           </li>
         </ul>
       </div>
@@ -105,7 +106,7 @@ watch(showModalRef, async (newValue) => {
           <div class="card-list">
             <ul class="card-list__list">
               <li v-for="(move, index) in pokemonMoves" :key="index">
-                {{ move }}
+                {{ capitalizeFirstLetter(move) }}
               </li>
             </ul>
           </div>
@@ -118,7 +119,7 @@ watch(showModalRef, async (newValue) => {
                 v-for="(gameIndices, index) in pokemonGameIndices"
                 :key="index"
               >
-                {{ gameIndices }}
+                {{ capitalizeFirstLetter(gameIndices) }}
               </li>
             </ul>
           </div>
@@ -130,9 +131,12 @@ watch(showModalRef, async (newValue) => {
 
 <style scoped>
 .pokemonCard {
-  z-index: 1;
+  z-index: 5000;
   display: inline-block;
-  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgb(227, 227, 227);
   border: 2px solid grey;
   border-radius: 5px;
@@ -220,8 +224,8 @@ watch(showModalRef, async (newValue) => {
   width: 20px;
 }
 
-.card-evolution__title{
-  margin-left:5%;
+.card-evolution__title {
+  margin-left: 5%;
   margin-top: 10px;
   margin-bottom: 0px;
   font-weight: bold;
@@ -234,7 +238,7 @@ watch(showModalRef, async (newValue) => {
   margin: 0px;
 }
 
-.card-list__content{
+.card-list__content {
   width: 40%;
   min-width: 145px;
 }
@@ -244,14 +248,14 @@ watch(showModalRef, async (newValue) => {
   font-weight: bold;
 }
 
-.second-list{
-  margin-left:10%;
+.second-list {
+  margin-left: 10%;
 }
 
-.card-lists{
+.card-lists {
   display: flex;
   justify-content: start;
-  margin-left:5%
+  margin-left: 5%;
 }
 
 .card-list {
@@ -269,7 +273,9 @@ watch(showModalRef, async (newValue) => {
   margin-top: 10px;
 }
 
-.card-list__list li{
- font-size:14px
+.card-list__list li {
+  font-size: 14px;
+  color: rgb(78, 78, 78);
+  font-weight: 500;
 }
 </style>

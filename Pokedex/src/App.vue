@@ -31,8 +31,12 @@ const chanceLanguage = (language) =>{
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-height: 100vh;
-  margin-top:150px
+  padding-bottom: 100px;
+  background: #1f1f1f;
+}
+
+.fullContent h1{
+  color:white;
 }
 
 .navbar{
