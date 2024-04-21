@@ -3,7 +3,9 @@ import { languagesOptions } from "../data/languages";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex/dist/vuex.cjs.js";
 const store = useStore();
-const searchOption = computed(() => (store.getters.getSearchOption).toLowerCase());
+const searchOption = computed(() =>
+  store.getters.getSearchOption.toLowerCase()
+);
 const language = computed(() => store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
 
@@ -38,6 +40,7 @@ const searchSubmit = () => {
         type="text"
         class="inputFilter-input"
         aria-label="Text input with dropdown button"
+        @keyup.enter="searchSubmit"
       />
       <button
         class="btn btn-outline-secondary dropdown-toggle dropdown-filter"
@@ -49,20 +52,26 @@ const searchSubmit = () => {
       </button>
       <ul class="dropdown-menu dropdown-menu-end dropdown-filter">
         <li>
-          <a class="dropdown-item" @click="updateSearchOption('Name')" href="#"
-            >{{ textInDifferentLanguages['name'] }}</a
+          <a
+            class="dropdown-item"
+            @click="updateSearchOption('Name')"
+            href="#"
+            >{{ textInDifferentLanguages["name"] }}</a
           >
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
           <a class="dropdown-item" @click="updateSearchOption('Id')" href="#"
-            >ID</a
+            >{{ textInDifferentLanguages["id"] }}</a
           >
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
-          <a class="dropdown-item" @click="updateSearchOption('Type')" href="#"
-            >{{ textInDifferentLanguages['type'] }}</a
+          <a
+            class="dropdown-item"
+            @click="updateSearchOption('Type')"
+            href="#"
+            >{{ textInDifferentLanguages["type"] }}</a
           >
         </li>
         <li><hr class="dropdown-divider" /></li>
@@ -71,11 +80,13 @@ const searchSubmit = () => {
             class="dropdown-item"
             @click="updateSearchOption('Species')"
             href="#"
-            >{{ textInDifferentLanguages['species'] }}</a
+            >{{ textInDifferentLanguages["species"] }}</a
           >
         </li>
       </ul>
-      <button class="dropdown-button" @click="searchSubmit()">Search</button>
+      <button class="dropdown-button" @click="searchSubmit()">
+        {{ textInDifferentLanguages["search"] }}
+      </button>
     </div>
   </div>
 </template>
@@ -92,21 +103,31 @@ const searchSubmit = () => {
 
 .inputFilter-input {
   width: 60%;
+  padding: 0 0.5rem;
   border: 1px solid black;
+  background-color: white;
   border-radius: 10px 10px 10px 10px;
-  background-color: #d7d7d7;
+}
+
+.inputFilter-input:focus{
+  outline: none;
 }
 
 .dropdown-filter {
-  background-color: #d7d7d7;
   border: 1px solid black;
+  background-color: #d7d7d7;
 }
 
 .dropdown-button {
-  background-color: #d7d7d7;
-  border: 1px solid black;
-  border-radius: 5px;
+  padding: 0px 10px;
   font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: #ffce4b;
+}
+
+.dropdown-button:hover{
+  background-color: #ff8c38;
 }
 
 @media (max-width: 800px) {
@@ -126,7 +147,11 @@ const searchSubmit = () => {
 
 @media (max-width: 450px) {
   .dropdown-filter {
-    font-size: 12px;
+    font-size: 10px;
+  }
+  .dropdown-button {
+    font-size:14px;
+    padding: 0px 5px;
   }
 }
 </style>

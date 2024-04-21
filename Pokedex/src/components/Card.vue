@@ -8,21 +8,24 @@ const showModal = ref(false);
 const store = useStore();
 const language = computed(() => store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
-
-watch(language, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    textInDifferentLanguages.value = languagesOptions[newVal];
-  }
-}, { immediate: true });
-
 const props = defineProps({
   pokemon: Object,
 });
 const pokemonId = props.pokemon.url.split("/")[6];
 const urlSvg = ref(
-  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/" +
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
     pokemonId +
-    ".svg"
+    ".png"
+);
+
+watch(
+  language,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      textInDifferentLanguages.value = languagesOptions[newVal];
+    }
+  },
+  { immediate: true }
 );
 
 const openCard = () => {
@@ -33,7 +36,7 @@ const closeCard = () => {
   showModal.value = false;
 };
 
-function capitalizeFirstLetter(string) {
+const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 </script>
@@ -45,7 +48,9 @@ function capitalizeFirstLetter(string) {
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
-    <button @click="openCard"> {{textInDifferentLanguages['moreInfo']}}</button>
+    <button @click="openCard">
+      {{ textInDifferentLanguages["moreInfo"] }}
+    </button>
     <Modal
       v-show="showModal"
       :pokemonId="pokemonId"
@@ -58,46 +63,61 @@ function capitalizeFirstLetter(string) {
 
 <style scoped>
 .card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-  border: 1px solid #FFFFFF;
   width: 30%;
+  margin: 10px;
+  display: flex;
+  min-width: 230px;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid #ffffff;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   background: linear-gradient(#555555, #2f2f2f);
 }
 
+.card:hover {
+  transform: scale(1.1);
+}
+
 .card-id {
+  left: 2%;
   margin: 0px;
   position: absolute;
-  left: 2%;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: "Wellfleet", monospace;
 }
 
 .card h2 {
-  color: #FFFFFF;
+  max-width: 60%;
+  margin-top: 5px;
+  font-size: 30px;
+  color: #ffffff;
   font-family: "Wellfleet", monospace;
-  margin-top:5px
 }
 
 .card button {
-  border-radius: 10px;
-  background-color: #ffce4b;
   border: none;
   margin: 15px 0;
-  font-weight: bold;
   padding: 0 15px;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: #ffce4b;
 }
 
 .card button:hover {
-  background-color: #ff8c38;
   transform: scale(1.1);
+  color: white;
+  background-color: #ff8c38;
 }
 
 .card-image img {
   height: 6rem;
+}
+
+@media (max-width: 1200px) {
+  .card h2 {
+    font-size: 24px;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -120,33 +140,9 @@ function capitalizeFirstLetter(string) {
   }
 }
 
-@media (max-width: 550px) {
-  .card h2 {
-    font-size: 16px;
-  }
-
-  .card-id {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 450px) {
-  .card h2 {
-    font-size: 12px;
-  }
-
-  .card-id {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 400px) {
-  .card h2 {
-    font-size: 10px;
-  }
-
-  .card-id {
-    font-size: 8px;
+@media (max-width: 610px) {
+  .card {
+    width: 60%;
   }
 }
 </style>

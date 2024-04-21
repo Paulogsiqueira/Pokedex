@@ -1,12 +1,12 @@
 <script setup>
-import { computed,ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { dataTypes } from "../data/pokemonTypes";
 import { languagesOptions } from "../data/languages";
 import { useStore } from "vuex/dist/vuex.cjs.js";
 import {
   getPokemonCharacteristics,
   getPokemonEvolutions,
-} from "../methods/methods";
+} from "../service/pokemonService";
 
 const store = useStore();
 const language = computed(() => store.getters.getLanguage);
@@ -42,7 +42,7 @@ const pokemonName = ref("");
 
 const showModalRef = () => props.showModal;
 
-function capitalizeFirstLetter(string) {
+const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -106,13 +106,15 @@ watch(showModalRef, async (newValue) => {
                 :style="'background-color:' + dataTypes[type].color"
               >
                 <img :src="getImageUrl(type)" />
-                <p>{{ type }}</p>
+                <p>{{ textInDifferentLanguages[type] }}</p>
               </div>
             </li>
           </ul>
         </div>
         <div class="card-evolution__content">
-          <p class="card-evolution__title">{{textInDifferentLanguages['evolutions']}}</p>
+          <p class="card-evolution__title">
+            {{ textInDifferentLanguages["evolutions"] }}
+          </p>
           <div class="card-evolution">
             <ul class="card-evolution__list">
               <li v-for="(evolution, index) in pokemonEvolutions" :key="index">
@@ -123,7 +125,7 @@ watch(showModalRef, async (newValue) => {
         </div>
         <div class="card-lists">
           <div class="card-list__content">
-            <p>{{textInDifferentLanguages['attackMoves']}}</p>
+            <p>{{ textInDifferentLanguages["attackMoves"] }}</p>
             <div class="card-list">
               <ul class="card-list__list">
                 <li v-for="(move, index) in pokemonMoves" :key="index">
@@ -133,7 +135,7 @@ watch(showModalRef, async (newValue) => {
             </div>
           </div>
           <div class="card-list__content second-list">
-            <p>{{textInDifferentLanguages['gameIndices']}}</p>
+            <p>{{ textInDifferentLanguages["gameIndices"] }}</p>
             <div class="card-list">
               <ul class="card-list__list">
                 <li
@@ -153,62 +155,63 @@ watch(showModalRef, async (newValue) => {
 
 <style scoped>
 .pokemonCard {
-  z-index: 5000;
-  display: inline-block;
-  position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background: #d7d7d7;
-  border: 2px solid #808080;
+  z-index: 5000;
+  position: fixed;
   border-radius: 5px;
+  display: inline-block;
+  transform: translate(-50%, -50%);
+  border: 2px solid #ffce4b;
+  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.9);
+  background: linear-gradient(#555555, #2f2f2f);
 }
 
 .pokemonCard-content {
-  padding: 0 0.5rem 0.5rem 0.5rem;
   min-width: 400px;
+  padding: 0 0.5rem 0.5rem 0.5rem;
 }
 
 .card-button {
-  display: flex;
   width: 100%;
+  display: flex;
   justify-content: end;
 }
 .card-button button {
-  font-size: 10px;
   height: 20px;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
   border-radius: 4px;
   border: 1px solid #909090;
   background-color: #da5656;
-  color: white;
-  font-weight: bold;
 }
 
 .card-title {
   display: flex;
-  justify-content: center;
+  color: #ffce4b;
   margin-right: 0.5rem;
-  color: #555555;
+  justify-content: center;
   font-family: "Wellfleet", monospace;
 }
 
 .card-img {
   display: flex;
-  justify-content: center;
-  background: white;
   padding: 20px;
   margin-right: 0.5rem;
+  justify-content: center;
+  background-color: #d7d7d7;
 }
 
 .card-img img {
   width: 150px;
 }
 .card-sprites__list {
-  display: flex;
-  justify-content: center;
-  list-style: none;
   padding: 0px;
+  display: flex;
   margin-top: 5px;
+  list-style: none;
+  justify-content: center;
 }
 
 .card-sprites__list li {
@@ -216,31 +219,31 @@ watch(showModalRef, async (newValue) => {
 }
 
 .card-sprites__list img {
-  background-color: white;
   width: 5rem;
   border-radius: 10px;
+  background-color: #d7d7d7;
 }
 
 .card-type__list {
-  display: flex;
-  justify-content: start;
-  list-style: none;
   padding: 0px;
+  display: flex;
+  list-style: none;
   margin-top: 10px;
+  justify-content: start;
 }
 .card-type__item {
   display: flex;
-  justify-content: center;
-  border: 1px solid #808080;
-  padding: 1px 10px 1px 10px;
-  border-radius: 10px;
-  margin-right: 5px;
   max-height: 30px;
+  margin-right: 5px;
+  border-radius: 10px;
+  justify-content: center;
+  padding: 1px 10px 1px 10px;
+  border: 1px solid #808080;
 }
 .card-type__item p {
+  margin-left: 5px;
   color: white;
   font-weight: bold;
-  margin-left: 5px;
 }
 
 .card-type__item img {
@@ -250,8 +253,9 @@ watch(showModalRef, async (newValue) => {
 .card-evolution__title {
   margin-left: 5%;
   margin-top: 10px;
-  margin-bottom: 0px;
   font-weight: bold;
+  margin-bottom: 0px;
+  color: #d7d7d7;
 }
 .card-evolution__list {
   list-style: none;
@@ -259,6 +263,7 @@ watch(showModalRef, async (newValue) => {
 
 .card-evolution__list p {
   margin: 0px;
+  color: #d7d7d7;
 }
 
 .card-list__content {
@@ -267,8 +272,9 @@ watch(showModalRef, async (newValue) => {
 }
 .card-list__content p {
   margin-top: 10px;
-  margin-bottom: 0px;
+  color:#d7d7d7;
   font-weight: bold;
+  margin-bottom: 0px;
 }
 
 .second-list {
@@ -277,19 +283,19 @@ watch(showModalRef, async (newValue) => {
 
 .card-lists {
   display: flex;
-  justify-content: start;
   margin-left: 5%;
+  justify-content: start;
 }
 
 .card-list {
-  max-height: 100px;
-  overflow-y: auto;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #909090;
+  overflow-y: auto;
+  max-height: 100px;
   border-radius: 5px;
+  border: 1px solid #909090;
   background-color: #90909099;
-  width: 100%;
 }
 
 .card-list__list {
@@ -298,17 +304,17 @@ watch(showModalRef, async (newValue) => {
 
 .card-list__list li {
   font-size: 14px;
-  color: #555555;
   font-weight: 500;
+  color: #d7d7d7;
 }
 
-#fade{
+#fade {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 5;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 5;
 }
 </style>

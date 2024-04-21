@@ -1,15 +1,17 @@
 import axios from 'axios';
 
+const URL_API = 'https://pokeapi.co/api/v2/'
+
 export const getPokemonsByNameAndId = async (value) => {
     const pokemons = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${value}`
+        `${URL_API}/pokemon/${value}`
     );
-    return [{ name: pokemons.data.name, url: `https://pokeapi.co/api/v2/pokemon/${pokemons.data.order}/` }];
+    return [{ name: pokemons.data.name, url: `${URL_API}pokemon/${pokemons.data.id}/` }];
 }
 
 export const getPokemonsBySpecies = async (value) => {
     const pokemons = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon-species/${value}`
+        `${URL_API}pokemon-species/${value}`
     );
     const pokemonsList = [];
     pokemons.data.varieties.map((variety) => pokemonsList.push(variety.pokemon))
@@ -18,7 +20,7 @@ export const getPokemonsBySpecies = async (value) => {
 
 export const getPokemonsByType = async (value) => {
     const pokemons = await axios.get(
-        `https://pokeapi.co/api/v2/type/${value}`
+        `${URL_API}type/${value}`
     );
     const pokemonsList = [];
     pokemons.data.pokemon.map((pokemon) => pokemonsList.push(pokemon.pokemon))
@@ -27,28 +29,30 @@ export const getPokemonsByType = async (value) => {
 
 export const getPokemonCharacteristics = async (value) => {
     const pokemon = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${value}`
+        `${URL_API}pokemon/${value}`
     );
     return pokemon.data
 }
 
 export const getPokemonEvolutions = async (value) => {
     const pokemon = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon-species/${value}`
+        `${URL_API}pokemon-species/${value}`
     );
     const evolutionId = pokemon.data.evolution_chain.url.split("/")[6];
     const evolutionChain = await axios.get(
-        `https://pokeapi.co/api/v2/evolution-chain/${evolutionId}`
+        `${URL_API}evolution-chain/${evolutionId}`
     );
-    const evolutionNames =[];
+    const evolutionNames = [];
     if (evolutionChain === undefined) {
-    }else{
-        const firstEvolution = evolutionChain.data.chain.evolves_to[0]
-        evolutionNames.push(evolutionChain.data.chain.species.name);
-        evolutionNames.push(firstEvolution.species.name)
-        if(evolutionChain.data.chain.evolves_to[0].evolves_to[0]){
-            evolutionNames.push(evolutionChain.data.chain.evolves_to[0].evolves_to[0].species.name)
+    } else {
+        evolutionNames.push(evolutionChain.data.chain.species.name)
+        if (evolutionChain.data.chain.evolves_to[0]) {
+            evolutionNames.push(evolutionChain.data.chain.evolves_to[0].species.name);
+            if (evolutionChain.data.chain.evolves_to[0].evolves_to[0]) {
+                evolutionNames.push(evolutionChain.data.chain.evolves_to[0].evolves_to[0].species.name)
+            }
         }
+
     }
     return evolutionNames
 }

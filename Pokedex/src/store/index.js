@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { getPokemonsByNameAndId, getPokemonsBySpecies, getPokemonsByType} from '../methods/methods'
+import { getPokemonsByNameAndId, getPokemonsBySpecies, getPokemonsByType} from '../service/pokemonService'
 
 const store = createStore({
     state: {
@@ -40,19 +40,19 @@ const store = createStore({
         ADD_FILTER_OPTIONS(state) {
             if (state.searchValue != "") {
                 if (state.searchOption == "Name") {
-                    getPokemonsByNameAndId(state.searchValue).then((result) => {
+                    getPokemonsByNameAndId((state.searchValue).toLowerCase()).then((result) => {
                         state.pokemonsResearched = result;
                     })
                 } else if (state.searchOption == "Id") {
-                    getPokemonsByNameAndId(state.searchValue).then((result) => {
+                    getPokemonsByNameAndId((state.searchValue).toLowerCase()).then((result) => {
                         state.pokemonsResearched = result;
                     })
                 }else if( state.searchOption == "Species"){
-                    getPokemonsBySpecies(state.searchValue).then((result) => {
+                    getPokemonsBySpecies((state.searchValue).toLowerCase()).then((result) => {
                         state.pokemonsResearched = result;
                     })
                 }else if( state.searchOption == "Type"){
-                    getPokemonsByType(state.searchValue).then((result) => {
+                    getPokemonsByType((state.searchValue).toLowerCase()).then((result) => {
                         state.pokemonsResearched = result;
                     })
                 }
