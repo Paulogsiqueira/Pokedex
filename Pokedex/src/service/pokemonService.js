@@ -2,6 +2,28 @@ import axios from 'axios';
 
 const URL_API = 'https://pokeapi.co/api/v2/'
 
+export const getPokemonsName = async (id,language) =>{
+    const pokemonInfo = await axios.get(
+        `${URL_API}pokemon-species/${id}`
+    )
+    let pokemonName = "";
+    pokemonInfo.data.names.map((name) =>{
+        if(name.language.name == language.value.toLowerCase()){
+            pokemonName = name.name
+        }
+    })
+    if(pokemonName == ""){
+        pokemonInfo.data.names.map((name) =>{
+            if(name.language.name == 'en'){
+                pokemonName = name.name
+            }
+        })
+    }
+
+    return pokemonName
+
+}
+
 export const getPokemonsByNameAndId = async (value) => {
     const pokemons = await axios.get(
         `${URL_API}/pokemon/${value}`

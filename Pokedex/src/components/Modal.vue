@@ -6,11 +6,26 @@ import { useStore } from "vuex/dist/vuex.cjs.js";
 import {
   getPokemonCharacteristics,
   getPokemonEvolutions,
+  getPokemonsName,
 } from "../service/pokemonService";
 
 const store = useStore();
+const pokemonName = ref("");
+const pokemonMoves = ref([]);
+const pokemonTypes = ref([]);
+const pokemonSprites = ref([]);
+const pokemonEvolutions = ref([]);
+const pokemonGameIndices = ref([]);
 const language = computed(() => store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
+const props = defineProps({
+  pokemonId: String,
+  urlSvg: String,
+  showModal: Boolean,
+  closeCard: Function,
+});
+
+const showModalRef = () => props.showModal;
 
 watch(
   language,
@@ -22,25 +37,9 @@ watch(
   { immediate: true }
 );
 
-const props = defineProps({
-  pokemonId: String,
-  urlSvg: String,
-  showModal: Boolean,
-  closeCard: Function,
-});
-
 const getImageUrl = (name) => {
   return `/icons/${name}.svg`;
 };
-
-const pokemonSprites = ref([]);
-const pokemonMoves = ref([]);
-const pokemonGameIndices = ref([]);
-const pokemonEvolutions = ref([]);
-const pokemonTypes = ref([]);
-const pokemonName = ref("");
-
-const showModalRef = () => props.showModal;
 
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -48,11 +47,9 @@ const capitalizeFirstLetter = (string) => {
 
 watch(showModalRef, async (newValue) => {
   if (newValue) {
+    pokemonName.value = await getPokemonsName(props.pokemonId, language)
     const pokemon = await getPokemonCharacteristics(props.pokemonId);
     pokemonEvolutions.value = await getPokemonEvolutions(props.pokemonId);
-
-    // - Get name
-    pokemonName.value = capitalizeFirstLetter(pokemon.name);
 
     // - Get all moves
     pokemonMoves.value = pokemon.moves.map((move) => move.move.name);

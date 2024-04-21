@@ -1,13 +1,14 @@
 <script setup>
 import { languagesOptions } from "../data/languages";
-import { computed, ref, watch } from "vue";
 import { useStore } from "vuex/dist/vuex.cjs.js";
+import { computed, ref, watch } from "vue";
+
 const store = useStore();
+const language = computed(() => store.getters.getLanguage);
+const textInDifferentLanguages = ref(languagesOptions[language.value]);
 const searchOption = computed(() =>
   store.getters.getSearchOption.toLowerCase()
 );
-const language = computed(() => store.getters.getLanguage);
-const textInDifferentLanguages = ref(languagesOptions[language.value]);
 
 watch(
   language,

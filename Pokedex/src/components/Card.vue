@@ -1,11 +1,13 @@
 <script setup>
-import { computed, ref, watch } from "vue";
-import Modal from "./Modal.vue";
-import { useStore } from "vuex/dist/vuex.cjs.js";
 import { languagesOptions } from "../data/languages";
+import { useStore } from "vuex/dist/vuex.cjs.js";
+import { computed, onMounted, ref, watch } from "vue";
+import Modal from "./Modal.vue";
+import { getPokemonsName } from "../service/pokemonService";
 
-const showModal = ref(false);
 const store = useStore();
+const showModal = ref(false);
+const pokemonName = ref("")
 const language = computed(() => store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
 const props = defineProps({
@@ -18,11 +20,18 @@ const urlSvg = ref(
     ".png"
 );
 
+onMounted(async () => {
+  pokemonName.value = await getPokemonsName(pokemonId, language)
+  console.log(pokemonName.value)
+});
+
+
 watch(
   language,
-  (newVal, oldVal) => {
+  async (newVal, oldVal) => {
     if (newVal !== oldVal) {
       textInDifferentLanguages.value = languagesOptions[newVal];
+      pokemonName.value = await getPokemonsName(pokemonId, language)
     }
   },
   { immediate: true }
@@ -36,15 +45,12 @@ const closeCard = () => {
   showModal.value = false;
 };
 
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 </script>
 
 <template>
   <div class="card">
     <p class="card-id">#{{ pokemonId }}</p>
-    <h2>{{ capitalizeFirstLetter(pokemon.name) }}</h2>
+    <h2>{{ pokemonName}}</h2>
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
@@ -76,7 +82,7 @@ const capitalizeFirstLetter = (string) => {
 }
 
 .card:hover {
-  transform: scale(1.1);
+  border:1px solid #ffce4b
 }
 
 .card-id {

@@ -1,15 +1,15 @@
 <script setup>
-import { onMounted, ref, computed } from "vue";
-import { useInfiniteScroll } from "@vueuse/core";
 import { useStore } from "vuex/dist/vuex.cjs.js";
+import { useInfiniteScroll } from "@vueuse/core";
+import { onMounted, ref, computed } from "vue";
 import Card from "./Card.vue";
 import axios from "axios";
 
 const minValue = ref(0);
 const requestLimit = 20;
-const pokemonsLimit = 1025;
 const listEl = ref(null);
 const store = useStore();
+const pokemonsLimit = 1025;
 const pokeList = computed(() => store.getters.getPokemonsListing);
 const pokemonsResearched = computed(() => store.getters.getPokemonsResearched);
 
@@ -26,16 +26,12 @@ const getPokemons = async (minValue) => {
   return pokemons.data.results;
 };
 
-const getPokemonsOnScroll = () => {
-  minValue.value += 20;
-  getPokemons(minValue.value);
-};
-
 useInfiniteScroll(
   listEl,
   () => {
     if (minValue.value + requestLimit < pokemonsLimit) {
-      getPokemonsOnScroll();
+      minValue.value += 20;
+      getPokemons(minValue.value);
     }
   },
   { distance: 20 }
