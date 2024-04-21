@@ -1,8 +1,21 @@
 <script setup>
-import { computed } from "vue";
+import { languagesOptions } from "../data/languages";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex/dist/vuex.cjs.js";
 const store = useStore();
-const searchOption = computed(() => store.getters.getSearchOption);
+const searchOption = computed(() => (store.getters.getSearchOption).toLowerCase());
+const language = computed(() => store.getters.getLanguage);
+const textInDifferentLanguages = ref(languagesOptions[language.value]);
+
+watch(
+  language,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      textInDifferentLanguages.value = languagesOptions[newVal];
+    }
+  },
+  { immediate: true }
+);
 
 const updateSearchValue = (value) => {
   store.commit("EDIT_SEARCH_VALUE", value);
@@ -32,24 +45,24 @@ const searchSubmit = () => {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        {{ searchOption }}
+        {{ textInDifferentLanguages[searchOption] }}
       </button>
       <ul class="dropdown-menu dropdown-menu-end dropdown-filter">
         <li>
           <a class="dropdown-item" @click="updateSearchOption('Name')" href="#"
-            >Name</a
+            >{{ textInDifferentLanguages['name'] }}</a
           >
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
           <a class="dropdown-item" @click="updateSearchOption('Id')" href="#"
-            >Id</a
+            >ID</a
           >
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
           <a class="dropdown-item" @click="updateSearchOption('Type')" href="#"
-            >Type</a
+            >{{ textInDifferentLanguages['type'] }}</a
           >
         </li>
         <li><hr class="dropdown-divider" /></li>
@@ -58,7 +71,7 @@ const searchSubmit = () => {
             class="dropdown-item"
             @click="updateSearchOption('Species')"
             href="#"
-            >Species</a
+            >{{ textInDifferentLanguages['species'] }}</a
           >
         </li>
       </ul>
@@ -86,7 +99,7 @@ const searchSubmit = () => {
 
 .dropdown-filter {
   background-color: #d7d7d7;
-  border:1px solid black
+  border: 1px solid black;
 }
 
 .dropdown-button {

@@ -1,10 +1,26 @@
 <script setup>
-import { defineProps, ref, watch } from "vue";
+import { computed,ref, watch } from "vue";
+import { dataTypes } from "../data/pokemonTypes";
+import { languagesOptions } from "../data/languages";
+import { useStore } from "vuex/dist/vuex.cjs.js";
 import {
   getPokemonCharacteristics,
   getPokemonEvolutions,
 } from "../methods/methods";
-import { dataTypes } from "../data/data";
+
+const store = useStore();
+const language = computed(() => store.getters.getLanguage);
+const textInDifferentLanguages = ref(languagesOptions[language.value]);
+
+watch(
+  language,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      textInDifferentLanguages.value = languagesOptions[newVal];
+    }
+  },
+  { immediate: true }
+);
 
 const props = defineProps({
   pokemonId: String,
@@ -14,7 +30,7 @@ const props = defineProps({
 });
 
 const getImageUrl = (name) => {
-  return `../public/icons/${name}.svg`;
+  return `/icons/${name}.svg`;
 };
 
 const pokemonSprites = ref([]);
@@ -96,7 +112,7 @@ watch(showModalRef, async (newValue) => {
           </ul>
         </div>
         <div class="card-evolution__content">
-          <p class="card-evolution__title">Evolutions</p>
+          <p class="card-evolution__title">{{textInDifferentLanguages['evolutions']}}</p>
           <div class="card-evolution">
             <ul class="card-evolution__list">
               <li v-for="(evolution, index) in pokemonEvolutions" :key="index">
@@ -107,7 +123,7 @@ watch(showModalRef, async (newValue) => {
         </div>
         <div class="card-lists">
           <div class="card-list__content">
-            <p>Attack Moves</p>
+            <p>{{textInDifferentLanguages['attackMoves']}}</p>
             <div class="card-list">
               <ul class="card-list__list">
                 <li v-for="(move, index) in pokemonMoves" :key="index">
@@ -117,7 +133,7 @@ watch(showModalRef, async (newValue) => {
             </div>
           </div>
           <div class="card-list__content second-list">
-            <p>Game Indices</p>
+            <p>{{textInDifferentLanguages['gameIndices']}}</p>
             <div class="card-list">
               <ul class="card-list__list">
                 <li

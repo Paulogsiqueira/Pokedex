@@ -2,14 +2,14 @@
 import CardList from "./components/CardList.vue";
 import InputFilter from "./components/InputFilter.vue";
 import { useStore } from "vuex/dist/vuex.cjs.js";
+import { languagesOptions } from "./data/languages";
 
-const languages = ["PT", "EN", "ES"];
+const languages = Object.keys(languagesOptions);
 const store = useStore();
 
 const chanceLanguage = (language) => {
   store.commit("EDIT_LANGUAGE", language);
 };
-
 
 </script>
 

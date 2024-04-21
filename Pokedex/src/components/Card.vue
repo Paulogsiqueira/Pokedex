@@ -1,7 +1,19 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import Modal from "./Modal.vue";
+import { useStore } from "vuex/dist/vuex.cjs.js";
+import { languagesOptions } from "../data/languages";
+
 const showModal = ref(false);
+const store = useStore();
+const language = computed(() => store.getters.getLanguage);
+const textInDifferentLanguages = ref(languagesOptions[language.value]);
+
+watch(language, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    textInDifferentLanguages.value = languagesOptions[newVal];
+  }
+}, { immediate: true });
 
 const props = defineProps({
   pokemon: Object,
@@ -33,7 +45,7 @@ function capitalizeFirstLetter(string) {
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
-    <button @click="openCard">More Info</button>
+    <button @click="openCard"> {{textInDifferentLanguages['moreInfo']}}</button>
     <Modal
       v-show="showModal"
       :pokemonId="pokemonId"

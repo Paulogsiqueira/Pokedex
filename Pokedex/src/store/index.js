@@ -3,7 +3,7 @@ import { getPokemonsByNameAndId, getPokemonsBySpecies, getPokemonsByType} from '
 
 const store = createStore({
     state: {
-        language: 'pt',
+        language: 'EN',
         pokeList: [],
         pokemonsResearched: [],
         searchValue: '',
@@ -22,6 +22,9 @@ const store = createStore({
         },
         getSearchValue(state) {
             return state.searchValue
+        },
+        getLanguage(state) {
+            return state.language
         }
     },
     mutations: {
@@ -59,7 +62,6 @@ const store = createStore({
         },
         EDIT_LANGUAGE(state,payload){
             state.language = payload
-            console.log(state.language)
         }
     },
     actions: {}
