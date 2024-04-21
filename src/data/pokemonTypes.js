@@ -2,7 +2,7 @@ export const dataTypes = {
     bug: { color: '#8BD674', img: './icons/bug.svg' },
     dark: { color: '#725847', img: './icons/dark.svg' },
     dragon: { color: '#6F38F6', img: './icons/dragon.svg' },
-    eletric: { color: '#F2CB55', img: './icons/eletric.svg' },
+    electric: { color: '#F2CB55', img: './icons/electric.svg' },
     fairy: { color: '#F9AEC7', img: './icons/fairy.svg' },
     fighting: { color: '#BF3029', img: './icons/fighting.svg' },
     fire: { color: '#FFA756', img: './icons/fire.svg' },

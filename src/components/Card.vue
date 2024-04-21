@@ -22,7 +22,6 @@ const urlSvg = ref(
 
 onMounted(async () => {
   pokemonName.value = await getPokemonsName(pokemonId, language)
-  console.log(pokemonName.value)
 });
 
 
