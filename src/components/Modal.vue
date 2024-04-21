@@ -43,11 +43,11 @@ const getImageUrl = (name) => {
 
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
 watch(showModalRef, async (newValue) => {
   if (newValue) {
-    pokemonName.value = await getPokemonsName(props.pokemonId, language)
+    pokemonName.value = await getPokemonsName(props.pokemonId, language);
     const pokemon = await getPokemonCharacteristics(props.pokemonId);
     pokemonEvolutions.value = await getPokemonEvolutions(props.pokemonId);
 
@@ -162,10 +162,11 @@ watch(showModalRef, async (newValue) => {
   border: 2px solid #ffce4b;
   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.9);
   background: linear-gradient(#555555, #2f2f2f);
+  max-width: 25rem;
 }
 
 .pokemonCard-content {
-  min-width: 400px;
+  min-width: 350px;
   padding: 0 0.5rem 0.5rem 0.5rem;
 }
 
@@ -206,6 +207,7 @@ watch(showModalRef, async (newValue) => {
 .card-sprites__list {
   padding: 0px;
   display: flex;
+  flex-wrap: wrap;
   margin-top: 5px;
   list-style: none;
   justify-content: center;
@@ -219,6 +221,12 @@ watch(showModalRef, async (newValue) => {
   width: 5rem;
   border-radius: 10px;
   background-color: #d7d7d7;
+}
+
+.card-sprites__list img:hover{
+  transform: scale(1.1);
+  border:1px solid white;
+
 }
 
 .card-type__list {
@@ -269,7 +277,7 @@ watch(showModalRef, async (newValue) => {
 }
 .card-list__content p {
   margin-top: 10px;
-  color:#d7d7d7;
+  color: #d7d7d7;
   font-weight: bold;
   margin-bottom: 0px;
 }
@@ -313,5 +321,22 @@ watch(showModalRef, async (newValue) => {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 800px) {
+  .card-sprites__list img {
+    width: 60px;
+  }
+
+  .card-img {
+    padding: 0px 10px;
+  }
+}
+
+@media (max-width: 550px) {
+  .card-lists {
+    margin-left: 2%;
+  }
+
 }
 </style>
