@@ -36,7 +36,6 @@ useInfiniteScroll(
   },
   { distance: 20 }
 );
-
 onMounted(() => {
   getPokemons(minValue.value);
 });

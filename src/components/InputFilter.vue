@@ -6,9 +6,9 @@ import { computed, ref, watch } from "vue";
 const store = useStore();
 const language = computed(() => store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
-const searchOption = computed(() =>
-  store.getters.getSearchOption.toLowerCase()
-);
+const searchOption = computed(() => {
+  return store.getters.getSearchOption.toLowerCase();
+});
 
 watch(
   language,
@@ -62,9 +62,9 @@ const searchSubmit = () => {
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
-          <a class="dropdown-item" @click="updateSearchOption('Id')" href="#"
-            >{{ textInDifferentLanguages["id"] }}</a
-          >
+          <a class="dropdown-item" @click="updateSearchOption('Id')" href="#">{{
+            textInDifferentLanguages["id"]
+          }}</a>
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
@@ -110,7 +110,7 @@ const searchSubmit = () => {
   border-radius: 10px 10px 10px 10px;
 }
 
-.inputFilter-input:focus{
+.inputFilter-input:focus {
   outline: none;
 }
 
@@ -127,7 +127,7 @@ const searchSubmit = () => {
   background-color: #ffce4b;
 }
 
-.dropdown-button:hover{
+.dropdown-button:hover {
   background-color: #ff8c38;
 }
 
@@ -151,7 +151,7 @@ const searchSubmit = () => {
     font-size: 10px;
   }
   .dropdown-button {
-    font-size:14px;
+    font-size: 14px;
     padding: 0px 5px;
   }
 }

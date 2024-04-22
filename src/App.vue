@@ -9,7 +9,7 @@ const languages = Object.keys(languagesOptions);
 const store = useStore();
 const selectedLanguage = computed(() => store.getters.getLanguage);
 
-const chanceLanguage = (language) => {
+const changeLanguage = (language) => {
   store.commit("EDIT_LANGUAGE", language);
 };
 </script>
@@ -24,7 +24,7 @@ const chanceLanguage = (language) => {
             v-bind:class="{
               'navbar-button__clicked': language == selectedLanguage,
             }"
-            @click="chanceLanguage(language)"
+            @click="changeLanguage(language)"
           >
             {{ language }}
           </button>

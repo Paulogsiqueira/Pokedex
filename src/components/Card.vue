@@ -7,8 +7,8 @@ import { getPokemonsName } from "../service/pokemonService";
 
 const store = useStore();
 const showModal = ref(false);
-const pokemonName = ref("")
-const language = computed(() => store.getters.getLanguage);
+const pokemonName = ref("");
+const language = computed(() =>  store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
 const props = defineProps({
   pokemon: Object,
@@ -21,7 +21,7 @@ const urlSvg = ref(
 );
 
 onMounted(async () => {
-  pokemonName.value = await getPokemonsName(pokemonId, language)
+  pokemonName.value = await getPokemonsName(pokemonId, language);
 });
 
 watch(
@@ -29,7 +29,7 @@ watch(
   async (newVal, oldVal) => {
     if (newVal !== oldVal) {
       textInDifferentLanguages.value = languagesOptions[newVal];
-      pokemonName.value = await getPokemonsName(pokemonId, language)
+      pokemonName.value = await getPokemonsName(pokemonId, language);
     }
   },
   { immediate: true }
@@ -42,13 +42,12 @@ const openCard = () => {
 const closeCard = () => {
   showModal.value = false;
 };
-
 </script>
 
 <template>
   <div class="card">
     <p class="card-id">#{{ pokemonId }}</p>
-    <h2>{{ pokemonName}}</h2>
+    <h2>{{ pokemonName }}</h2>
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>
@@ -80,7 +79,7 @@ const closeCard = () => {
 }
 
 .card:hover {
-  border:1px solid #ffce4b
+  border: 1px solid #ffce4b;
 }
 
 .card-id {

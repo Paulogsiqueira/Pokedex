@@ -17,7 +17,7 @@ const pokemonSprites = ref([]);
 const pokemonEvolutions = ref([]);
 const pokemonGameIndices = ref([]);
 const language = computed(() => store.getters.getLanguage);
-const textInDifferentLanguages = ref(languagesOptions[language.value]);
+const textInDifferentLanguages = ref({});
 const props = defineProps({
   pokemonId: String,
   urlSvg: String,
