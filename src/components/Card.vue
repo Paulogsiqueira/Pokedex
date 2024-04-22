@@ -24,7 +24,6 @@ onMounted(async () => {
   pokemonName.value = await getPokemonsName(pokemonId, language)
 });
 
-
 watch(
   language,
   async (newVal, oldVal) => {

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { dataTypes } from "../data/pokemonTypes";
 import { languagesOptions } from "../data/languages";
 import { useStore } from "vuex/dist/vuex.cjs.js";
@@ -27,6 +27,15 @@ const props = defineProps({
 
 const showModalRef = () => props.showModal;
 
+const getImageUrl = (name) => {
+  return `/icons/${name}.svg`;
+};
+
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+
 watch(
   language,
   (newVal, oldVal) => {
@@ -37,13 +46,6 @@ watch(
   { immediate: true }
 );
 
-const getImageUrl = (name) => {
-  return `/icons/${name}.svg`;
-};
-
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
 
 watch(showModalRef, async (newValue) => {
   if (newValue) {
@@ -88,7 +90,7 @@ watch(showModalRef, async (newValue) => {
         <div class="card-sprites">
           <ul class="card-sprites__list">
             <li v-for="(type, index) in pokemonSprites" :key="index">
-              <img
+              <img 
                 :src="type"
                 alt="Pokemon in different postions and in shiny appearance"
               />
