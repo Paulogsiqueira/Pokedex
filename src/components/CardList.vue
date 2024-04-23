@@ -1,7 +1,7 @@
 <script setup>
-import { useStore } from "vuex/dist/vuex.cjs.js";
-import { useInfiniteScroll } from "@vueuse/core";
 import { onMounted, ref, computed } from "vue";
+import { useInfiniteScroll } from "@vueuse/core";
+import { useStore } from "vuex/dist/vuex.cjs.js";
 import Card from "./Card.vue";
 import axios from "axios";
 

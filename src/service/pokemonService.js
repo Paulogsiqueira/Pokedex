@@ -2,19 +2,19 @@ import axios from 'axios';
 
 const URL_API = 'https://pokeapi.co/api/v2/'
 
-export const getPokemonsName = async (id,language) =>{
+export const getPokemonsName = async (id, language) => {
     const pokemonInfo = await axios.get(
         `${URL_API}pokemon-species/${id}`
     )
     let pokemonName = "";
-    pokemonInfo.data.names.map((name) =>{
-        if(name.language.name == language.value.toLowerCase()){
+    pokemonInfo.data.names.map((name) => {
+        if (name.language.name == language.value.toLowerCase()) {
             pokemonName = name.name
         }
     })
-    if(pokemonName == ""){
-        pokemonInfo.data.names.map((name) =>{
-            if(name.language.name == 'en'){
+    if (pokemonName == "") {
+        pokemonInfo.data.names.map((name) => {
+            if (name.language.name == 'en') {
                 pokemonName = name.name
             }
         })
@@ -25,35 +25,56 @@ export const getPokemonsName = async (id,language) =>{
 }
 
 export const getPokemonsByNameAndId = async (value) => {
-    const pokemons = await axios.get(
-        `${URL_API}/pokemon/${value}`
-    );
-    return [{ name: pokemons.data.name, url: `${URL_API}pokemon/${pokemons.data.id}/` }];
-}
+    try {
+        const response = await axios.get(`${URL_API}/pokemon/${value}`);
+        const pokemonData = response.data;
+        return [{ name: pokemonData.name, url: `${URL_API}pokemon/${pokemonData.id}/` }];
+    } catch (error) {
+        console.error('Pokemon not found', error);
+        return [];
+    }
+};
 
 export const getPokemonsBySpecies = async (value) => {
-    const pokemons = await axios.get(
-        `${URL_API}pokemon-species/${value}`
-    );
-    const pokemonsList = [];
-    pokemons.data.varieties.map((variety) => pokemonsList.push(variety.pokemon))
-    return pokemonsList
+    try {
+        const pokemons = await axios.get(`${URL_API}pokemon-species/${value}`);
+        const pokemonsList = [];
+        pokemons.data.varieties.map((variety) => pokemonsList.push(variety.pokemon))
+        return pokemonsList
+    } catch (error) {
+        console.error('Specie not found', error);
+        return [];
+    }
+
 }
 
 export const getPokemonsByType = async (value) => {
-    const pokemons = await axios.get(
-        `${URL_API}type/${value}`
-    );
-    const pokemonsList = [];
-    pokemons.data.pokemon.map((pokemon) => pokemonsList.push(pokemon.pokemon))
-    return pokemonsList
+    try {
+        const pokemons = await axios.get(
+            `${URL_API}type/${value}`
+        );
+        const pokemonsList = [];
+        pokemons.data.pokemon.map((pokemon) => pokemonsList.push(pokemon.pokemon))
+        return pokemonsList
+    } catch (error) {
+        console.error('Type not found', error);
+        return [];
+    }
+
 }
 
 export const getPokemonCharacteristics = async (value) => {
-    const pokemon = await axios.get(
-        `${URL_API}pokemon/${value}`
-    );
-    return pokemon.data
+    try {
+        const pokemon = await axios.get(
+            `${URL_API}pokemon/${value}`
+        );
+        console.log(pokemon.data)
+        return pokemon.data
+    } catch (error) {
+        console.error('Pokemon not found', error);
+        return {};
+    }
+
 }
 
 export const getPokemonEvolutions = async (value) => {

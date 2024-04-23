@@ -1,9 +1,9 @@
 <script setup>
-import { languagesOptions } from "../data/languages";
-import { useStore } from "vuex/dist/vuex.cjs.js";
 import { computed, onMounted, ref, watch } from "vue";
-import Modal from "./Modal.vue";
+import { languagesOptions } from "../data/languages";
 import { getPokemonsName } from "../service/pokemonService";
+import { useStore } from "vuex/dist/vuex.cjs.js";
+import Modal from "./Modal.vue";
 
 const store = useStore();
 const showModal = ref(false);

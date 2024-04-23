@@ -1,7 +1,7 @@
 <script setup>
+import { computed, ref, watch } from "vue";
 import { languagesOptions } from "../data/languages";
 import { useStore } from "vuex/dist/vuex.cjs.js";
-import { computed, ref, watch } from "vue";
 
 const store = useStore();
 const language = computed(() => store.getters.getLanguage);

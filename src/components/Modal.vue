@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { dataTypes } from "../data/pokemonTypes";
 import { languagesOptions } from "../data/languages";
 import { useStore } from "vuex/dist/vuex.cjs.js";
