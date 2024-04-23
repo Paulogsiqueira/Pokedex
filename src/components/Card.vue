@@ -13,6 +13,7 @@ const textInDifferentLanguages = ref(languagesOptions[language.value]);
 const props = defineProps({
   pokemon: Object,
 });
+
 const pokemonId = props.pokemon.url.split("/")[6];
 const urlSvg = ref(
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
@@ -47,7 +48,7 @@ const closeCard = () => {
 <template>
   <div class="card">
     <p class="card-id">#{{ pokemonId }}</p>
-    <h2>{{ pokemonName }}</h2>
+    <h2>{{ pokemonName ? pokemonName : pokemon.name }}</h2>
     <div class="card-image">
       <img :src="urlSvg" alt="Pokemon image" />
     </div>

@@ -40,6 +40,7 @@ export const getPokemonsBySpecies = async (value) => {
         const pokemons = await axios.get(`${URL_API}pokemon-species/${value}`);
         const pokemonsList = [];
         pokemons.data.varieties.map((variety) => pokemonsList.push(variety.pokemon))
+        console.log(pokemonsList)
         return pokemonsList
     } catch (error) {
         console.error('Specie not found', error);
