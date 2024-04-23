@@ -69,7 +69,6 @@ export const getPokemonCharacteristics = async (value) => {
         const pokemon = await axios.get(
             `${URL_API}pokemon/${value}`
         );
-        console.log(pokemon.data)
         return pokemon.data
     } catch (error) {
         console.error('Pokemon not found', error);
