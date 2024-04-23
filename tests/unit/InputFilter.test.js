@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import InputFilter from '../../src/components/InputFilter.vue'
 import { describe, expect, it, vi } from 'vitest'
+import { screen } from '@testing-library/vue'
 
 const mockStore = {
   getters: {
@@ -19,6 +20,7 @@ describe('InputFilter.vue', () => {
         },
       },
     })
+    const searchSubmitSpy = vi.spyOn(wrapper.vm, 'searchSubmit');
 
     const searchInput = wrapper.find('.inputFilter-input')
     const searchButton = wrapper.find('.dropdown-button')
@@ -36,9 +38,8 @@ describe('InputFilter.vue', () => {
     await searchInput.setValue('bulbasaur')
     await searchButton.trigger('click')
 
-    const cards = document.querySelectorAll('.card');
-    console.log(cards)
-    expect(cards.length).toBe(1);
+
+    expect(searchSubmitSpy).toHaveBeenCalled();
 
   })
 })

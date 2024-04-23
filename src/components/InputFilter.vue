@@ -7,7 +7,8 @@ const store = useStore();
 const language = computed(() => store.getters.getLanguage);
 const textInDifferentLanguages = ref(languagesOptions[language.value]);
 const searchOption = computed(() => {
-  return store.getters.getSearchOption.toLowerCase();
+  const option = store.getters.getSearchOption.toString()
+  return option.toLowerCase();
 });
 
 watch(
